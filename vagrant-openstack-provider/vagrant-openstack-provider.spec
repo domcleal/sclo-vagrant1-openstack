@@ -18,7 +18,7 @@ Requires(preun): %{?scl_prefix}vagrant
 Requires: %{?scl_prefix_ruby}ruby(release)
 Requires: %{?scl_prefix_ruby}ruby(rubygems)
 Requires: %{?scl_prefix_ruby}ruby
-Requires: %{?scl_prefix}rubygem(colorize) = 1.7.3
+Requires: %{?scl_prefix}rubygem(colorize) = 0.7.3
 Requires: %{?scl_prefix_ruby}rubygem(json)
 Requires: %{?scl_prefix}rubygem(rest-client) >= 1.6.0
 Requires: %{?scl_prefix}rubygem(rest-client) < 1.7.0
