@@ -106,3 +106,6 @@ cp -a .%{vagrant_plugin_dir}/* \
 %doc %{vagrant_plugin_instdir}/RELEASE.md
 
 %changelog
+* Tue May 17 2016 Dominic Cleal <dominic@cleal.org> 0.7.2-1
+- Initial build
+
