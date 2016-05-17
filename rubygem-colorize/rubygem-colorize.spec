@@ -5,10 +5,10 @@
 
 Summary: Add color methods to String class
 Name: %{?scl_prefix}rubygem-%{gem_name}
-Version: 0.7.7
+Version: 0.7.3
 Release: 1%{?dist}
 Group: Development/Libraries
-License: MIT
+License: GPLv2+
 URL: https://github.com/fazibear/colorize
 Source0: http://rubygems.org/downloads/%{gem_name}-%{version}.gem
 
