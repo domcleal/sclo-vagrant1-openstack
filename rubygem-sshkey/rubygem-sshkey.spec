@@ -67,3 +67,6 @@ cp -a .%{gem_dir}/* \
 %doc %{gem_instdir}/README.md
 
 %changelog
+* Tue May 17 2016 Dominic Cleal <dominic@cleal.org> 1.6.1-1
+- Initial build
+
