@@ -18,12 +18,12 @@ Requires(preun): %{?scl_prefix}vagrant
 Requires: %{?scl_prefix_ruby}ruby(release)
 Requires: %{?scl_prefix_ruby}ruby(rubygems)
 Requires: %{?scl_prefix_ruby}ruby
-Requires: %{?scl_prefix_ruby}rubygem(colorize) = 1.7.3
+Requires: %{?scl_prefix}rubygem(colorize) = 1.7.3
 Requires: %{?scl_prefix_ruby}rubygem(json)
-Requires: %{?scl_prefix_ruby}rubygem(rest-client) >= 1.6.0
-Requires: %{?scl_prefix_ruby}rubygem(rest-client) < 1.7.0
-Requires: %{?scl_prefix_ruby}rubygem(sshkey) = 1.6.1
-Requires: %{?scl_prefix_ruby}rubygem(terminal-table) = 1.4.5
+Requires: %{?scl_prefix}rubygem(rest-client) >= 1.6.0
+Requires: %{?scl_prefix}rubygem(rest-client) < 1.7.0
+Requires: %{?scl_prefix}rubygem(sshkey) = 1.6.1
+Requires: %{?scl_prefix}rubygem(terminal-table) = 1.4.5
 Requires: %{?scl_prefix}vagrant
 
 BuildRequires: %{?scl_prefix_ruby}ruby(release)
