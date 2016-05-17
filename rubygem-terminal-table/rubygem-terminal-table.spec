@@ -69,3 +69,6 @@ cp -a .%{gem_dir}/* \
 %doc %{gem_instdir}/Todo.rdoc
 
 %changelog
+* Tue May 17 2016 Dominic Cleal <dominic@cleal.org> 1.4.5-1
+- Initial build
+
