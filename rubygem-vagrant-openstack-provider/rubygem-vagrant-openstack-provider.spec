@@ -1,16 +1,19 @@
-%{?scl:%scl_package rubygem-%{gem_name}}
+%{?scl:%scl_package %{vagrant_plugin_name}}
 %{!?scl:%global pkg_name %{name}}
 
-%global gem_name vagrant-openstack-provider
+%global vagrant_plugin_name vagrant-openstack-provider
 
 Summary: Enables Vagrant to manage machines in OpenStack Cloud
-Name: %{?scl_prefix}rubygem-%{gem_name}
+Name: %{?scl_prefix}%{vagrant_plugin_name}
 Version: 0.7.2
 Release: 1%{?dist}
 Group: Development/Languages
 License: MIT
 URL: https://github.com/ggiamarchi/vagrant-openstack-provider
-Source0: http://rubygems.org/gems/%{gem_name}-%{version}.gem
+Source0: http://rubygems.org/gems/%{vagrant_plugin_name}-%{version}.gem
+
+Requires(posttrans): %{?scl_prefix}vagrant
+Requires(preun): %{?scl_prefix}vagrant
 
 Requires: %{?scl_prefix_ruby}ruby(release)
 Requires: %{?scl_prefix_ruby}ruby(rubygems)
@@ -21,12 +24,14 @@ Requires: %{?scl_prefix_ruby}rubygem(rest-client) >= 1.6.0
 Requires: %{?scl_prefix_ruby}rubygem(rest-client) < 1.7.0
 Requires: %{?scl_prefix_ruby}rubygem(sshkey) = 1.6.1
 Requires: %{?scl_prefix_ruby}rubygem(terminal-table) = 1.4.5
+Requires: %{?scl_prefix}vagrant
 
 BuildRequires: %{?scl_prefix_ruby}ruby(release)
 BuildRequires: %{?scl_prefix_ruby}rubygems-devel
 BuildRequires: %{?scl_prefix_ruby}ruby
+BuildRequires: %{?scl_prefix}vagrant
 BuildArch: noarch
-Provides: %{?scl_prefix}rubygem(%{gem_name}) = %{version}
+Provides: %{?scl_prefix}vagrant(%{vagrant_plugin_name}) = %{version}
 
 %description
 This is a Vagrant 1.6+ plugin that adds an OpenStack Cloud provider to Vagrant,
@@ -42,42 +47,62 @@ BuildArch: noarch
 Documentation for %{pkg_name}
 
 %prep
-%setup -n %{pkg_name}-%{version} -q -c -T
-mkdir -p .%{gem_dir}
-%{?scl:scl enable %{scl} - <<EOF}
-%gem_install -n %{SOURCE0}
+%{?scl:scl enable %{scl} - << \EOF}
+gem unpack %{SOURCE0}
 %{?scl:EOF}
 
+%setup -q -D -T -n  %{vagrant_plugin_name}-%{version}
+
+%{?scl:scl enable %{scl} - << \EOF}
+gem spec %{SOURCE0} -l --ruby > %{vagrant_plugin_name}.gemspec
+%{?scl:EOF}
+
+# remove specific version dep
+sed -i '1,$s/<json>, \["= 1.8.3"]/<json>/g' %{vagrant_plugin_name}.gemspec
+
 %build
-sed -i '1,$s/<json>, \["= 1.8.3"]/<json>/g' ./%{gem_spec}
+%{?scl:scl enable %{scl} - << \EOF}
+gem build %{vagrant_plugin_name}.gemspec
+%{?scl:EOF}
+%vagrant_plugin_install
 
 %install
-mkdir -p %{buildroot}%{gem_dir}
-cp -a .%{gem_dir}/* \
-        %{buildroot}%{gem_dir}/
+mkdir -p %{buildroot}%{vagrant_plugin_dir}
+cp -a .%{vagrant_plugin_dir}/* \
+        %{buildroot}%{vagrant_plugin_dir}/
+
+%posttrans
+%{?scl:env -i - scl enable %{scl} - << \EOF}
+%vagrant_plugin_register %{vagrant_plugin_name}
+%{?scl:EOF}
+
+%preun
+%{?scl:env -i - scl enable %{scl} - << \EOF}
+%vagrant_plugin_unregister %{vagrant_plugin_name}
+%{?scl:EOF}
 
 %files
-%dir %{gem_instdir}
-%{gem_libdir}
-%{gem_instdir}/dummy.box
-%{gem_instdir}/locales
-%license %{gem_instdir}/LICENSE
-%exclude %{gem_cache}
-%{gem_spec}
+%dir %{vagrant_plugin_instdir}
+%{vagrant_plugin_libdir}
+%{vagrant_plugin_instdir}/dummy.box
+%{vagrant_plugin_instdir}/locales
+%license %{vagrant_plugin_instdir}/LICENSE
+%exclude %{vagrant_plugin_cache}
+%{vagrant_plugin_spec}
 
-%exclude %{gem_instdir}/.*
-%exclude %{gem_instdir}/*.gemspec
-%exclude %{gem_instdir}/functional_tests
-%exclude %{gem_instdir}/Gemfile
-%exclude %{gem_instdir}/Rakefile
-%exclude %{gem_instdir}/Vagrantfile
-%exclude %{gem_instdir}/spec
-%exclude %{gem_instdir}/stackrc
+%exclude %{vagrant_plugin_instdir}/.*
+%exclude %{vagrant_plugin_instdir}/*.vagrant_pluginspec
+%exclude %{vagrant_plugin_instdir}/functional_tests
+%exclude %{vagrant_plugin_instdir}/Gemfile
+%exclude %{vagrant_plugin_instdir}/Rakefile
+%exclude %{vagrant_plugin_instdir}/Vagrantfile
+%exclude %{vagrant_plugin_instdir}/spec
+%exclude %{vagrant_plugin_instdir}/stackrc
 
 %files doc
-%doc %{gem_docdir}
-%{gem_instdir}/example_box
-%doc %{gem_instdir}/CHANGELOG.md
-%doc %{gem_instdir}/RELEASE.md
+%doc %{vagrant_plugin_docdir}
+%{vagrant_plugin_instdir}/example_box
+%doc %{vagrant_plugin_instdir}/CHANGELOG.md
+%doc %{vagrant_plugin_instdir}/RELEASE.md
 
 %changelog
