@@ -64,3 +64,9 @@ cp -a .%{gem_dir}/* \
 %{gem_instdir}/%{gem_name}.gemspec
 
 %changelog
+* Tue May 17 2016 Dominic Cleal <dominic@cleal.org> 0.7.3-1
+- Initial build
+
+* Tue May 17 2016 Dominic Cleal <dominic@cleal.org> 0.7.3-1
+- Initial build
+
