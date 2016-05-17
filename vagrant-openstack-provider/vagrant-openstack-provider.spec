@@ -91,7 +91,7 @@ cp -a .%{vagrant_plugin_dir}/* \
 %{vagrant_plugin_spec}
 
 %exclude %{vagrant_plugin_instdir}/.*
-%exclude %{vagrant_plugin_instdir}/*.vagrant_pluginspec
+%exclude %{vagrant_plugin_instdir}/*.gemspec
 %exclude %{vagrant_plugin_instdir}/functional_tests
 %exclude %{vagrant_plugin_instdir}/Gemfile
 %exclude %{vagrant_plugin_instdir}/Rakefile
